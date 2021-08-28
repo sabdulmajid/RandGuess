@@ -13,36 +13,38 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 
 void UBullCowCartridge::OnInput(const FString &Input) // When the player hits enter
 {
-    
 
     
-    /*
-    If game over, then ClearScreen() and SetupGame().
-    Else check PlayerGuess 
-    */
    if (bGameOver)
    {
         ClearScreen();
         SetupGame();
    }
-   else
+   else // Checking PlayerGuess
    {
         if (Input == HiddenWord)
         {
             PrintLine(TEXT("Victory! Well done, you won!"));
-            // bGameOver = true;
+            EndGame();
         }
         else
         {
-            if (Input.Len() != HiddenWord.Len())
+            --Lives;
+            PrintLine(TEXT("Lost a life!"));
+            if (Lives > 0)
             {
-                PrintLine(TEXT("Try again, the hidden word is %i characters long."), HiddenWord.Len()); // Magic number hardcoded!
+                if (Input.Len() != HiddenWord.Len())
+                {    
+                    PrintLine(TEXT("Sorry, try again. \nYou have %i lives left."), Lives);
+                }           
             }
-
-            PrintLine(TEXT("You lost! Nice try!"));
-            // bGameOver = true;
+            else
+            {
+                PrintLine(TEXT("You have no lives left!"));
+                EndGame();
+            }
     }
-   }
+}
 
    
 
@@ -55,16 +57,17 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("Welcome to the Bull-Cow Game!"));
 
     HiddenWord = TEXT("take");
-    Lives = 4;
+    Lives = HiddenWord.Len();
     bGameOver = false;
     
     PrintLine(TEXT("Guess the %i letter word!"), HiddenWord.Len()); 
-    PrintLine(TEXT("Type in your guess. \nPress enter to continue...")); // Prompting player for guess
+    PrintLine(TEXT("You have %i lives"), Lives);
+    PrintLine(TEXT("Type in your guess and \npress enter to continue...")); // Prompting player for guess
    
 }
 
 void UBullCowCartridge::EndGame()
 {
     bGameOver = true;
-    PrintLine(TEXT("Press enter to play again..."))
+    PrintLine(TEXT("Press enter to play again..."));
 }
