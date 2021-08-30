@@ -1,4 +1,5 @@
 #include "BullCowCartridge.h"
+#include "HiddenWordList.h"
 
 // BeginPlay() is an inherited method - so basically override the method (of Super) to do the same thing that the inherited method does - Meant for UE4 only.
 void UBullCowCartridge::BeginPlay()
@@ -43,6 +44,7 @@ void UBullCowCartridge::EndGame()
     PrintLine(TEXT("\nPress enter to play again..."));
 }
 
+// The ProcessGuess() function runs the Guess through a series of IF statements to see whether they satisfy the game requirements.
 void UBullCowCartridge::ProcessGuess(FString Guess)
 {
     // If the guess matches, display so to the user with a celebratory message and call EndGame() function to restart game.
@@ -87,25 +89,28 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
     PrintLine(TEXT("Guess again, you have %i lives left"), Lives);
 }
  
+// A function which checks whether the inputted word has repeating letters in it.
 bool UBullCowCartridge::IsIsogram(FString Word) const
 {
-    
-    for (int32 Index = 0, Comparison = Index + 1; Comparison < Word.Len(); Comparison++)
-    {
-        if (Word[Index] == Word[Comparison])
-        {
-            return false;
-        }
-        
-    }
-    
-    /*  PSEUDOCODE:
+    /*  
+        PSEUDOCODE:
         For each letter
         Start at the first element (elements[0])
         Compare against the next letter
         Until we reach [Word.Len() - 1]
         If any letters are the SAME, return FALSE
     */
+
+    for (int32 Index = 0; Index < Word.Len(); Index++)
+    {
+        for (int32 Comparison = Index + 1; Comparison < Word.Len(); Comparison++)
+        {
+            if (Word[Index] == Word[Comparison])
+            {
+                return false;
+            }   
+        }
+    }
 
     return true;
 }
