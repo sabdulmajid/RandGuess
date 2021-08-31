@@ -41,7 +41,7 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("Guess the %i letter word!"), HiddenWord.Len()); 
     PrintLine(TEXT("You have %i lives"), Lives);
     PrintLine(TEXT("Type in your guess and \npress enter to continue...")); // Prompting player for guess
-    PrintLine(TEXT("The hidden word is: %s"), *HiddenWord); // Debugging line to make it easier to develop the game
+    // PrintLine(TEXT("The hidden word is: %s"), *HiddenWord); // Debugging line to make it easier to develop the game
 }
 
 // The EndGame() function ends the game and prompts the player to try again.
